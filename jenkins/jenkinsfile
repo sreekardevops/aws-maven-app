@@ -41,11 +41,8 @@ pipeline {
         stage('Docker Login') {
             steps {
 
-            withCredentials([usernamePassword(credentialsId: 'dockerlogin', passwordVariable: 'dockerpwd', usernameVariable: 'dockeruser')]) {
-    
- 				   sh 'docker login -u ${dockeruser} -p ${dockerpwd}'
-				}
-
+                 sh 'docker login -u sreekardevops  -p dckr_pat_3S_5Ba9lX6cez4g7vM1vmedSYuo'
+		
             }
         }              
 
@@ -64,3 +61,41 @@ pipeline {
 
                 }
             }
+
+        stage ('Kubernetes AutoDeployment') {
+  
+
+                steps {
+
+                    dir('manifests')
+                     {
+
+                    sh 'ls -l'
+                    // kubectl apply -f <fileName>.yml
+                    sh 'kubectl --server=https://ED76CAB62F5B5724CC2092221EADBF33.gr7.us-east-1.eks.amazonaws.com --insecure-skip-tls-verify --token="eyJhbGciOiJSUzI1NiIsImtpZCI6ImQyMnVDaDFKdng3T01rS2FhempfdXZlaEVmTFJwQmxZX1BuUFVk NnF0YnMifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZ XJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImplbmtpbnMtc2EiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiamVua2lucyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291b nQvc2VydmljZS1hY2NvdW50LnVpZCI6IjgwODMyNjdhLWFkMTctNDgxZi1hZTlkLWY0YmJmMjhlN2JlN iIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmplbmtpbnMifQ.Kw8_JL3R7L3b8y9gP6WbD8f0a6pLXIFSuaktY63zNKfg8OlmnilAHTk2M9PhpUlQa-NBH6i3lycxgbnfcPsw54kWX97QO0 Fscstq5wPcBzMfwtXIM3-r8hhv9F8BSMi43u8OyvAAU3GmUg9ThTKyh0J7eqfNLb6D-zEoZevqp0f03N EMnlejSK1DGGgR1bwWjZI-7Z9v0Q-OlgmlfJxDaJPRHgBWDDk6wkRSjAR0YQasBgvEjrXd937DJeVEqX pfuYq-P_ZjYYvjMtrxo4MDIpT3bXzbzFwndoImM_Nx_wxiNGdmf0NagbUjb-o9ONGajQgu6PayJcJm4t5c5Cvo6A" apply -f deployment.yml'
+
+                    sh 'kubectl --server=https://ED76CAB62F5B5724CC2092221EADBF33.gr7.us-east-1.eks.amazonaws.com --insecure-skip-tls-verify --token="eyJhbGciOiJSUzI1NiIsImtpZCI6ImQyMnVDaDFKdng3T01rS2FhempfdXZlaEVmTFJwQmxZX1BuUFVk NnF0YnMifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZ XJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImplbmtpbnMtc2EiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiamVua2lucyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291b nQvc2VydmljZS1hY2NvdW50LnVpZCI6IjgwODMyNjdhLWFkMTctNDgxZi1hZTlkLWY0YmJmMjhlN2JlN iIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmplbmtpbnMifQ.Kw8_JL3R7L3b8y9gP6WbD8f0a6pLXIFSuaktY63zNKfg8OlmnilAHTk2M9PhpUlQa-NBH6i3lycxgbnfcPsw54kWX97QO0 Fscstq5wPcBzMfwtXIM3-r8hhv9F8BSMi43u8OyvAAU3GmUg9ThTKyh0J7eqfNLb6D-zEoZevqp0f03N EMnlejSK1DGGgR1bwWjZI-7Z9v0Q-OlgmlfJxDaJPRHgBWDDk6wkRSjAR0YQasBgvEjrXd937DJeVEqX pfuYq-P_ZjYYvjMtrxo4MDIpT3bXzbzFwndoImM_Nx_wxiNGdmf0NagbUjb-o9ONGajQgu6PayJcJm4t5c5Cvo6A" apply -f service.yml'
+                    
+                    sh 'kubectl --server=https://ED76CAB62F5B5724CC2092221EADBF33.gr7.us-east-1.eks.amazonaws.com --insecure-skip-tls-verify --token="eyJhbGciOiJSUzI1NiIsImtpZCI6ImQyMnVDaDFKdng3T01rS2FhempfdXZlaEVmTFJwQmxZX1BuUFVk NnF0YnMifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZ XJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJkZWZhdWx0Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImplbmtpbnMtc2EiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoiamVua2lucyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291b nQvc2VydmljZS1hY2NvdW50LnVpZCI6IjgwODMyNjdhLWFkMTctNDgxZi1hZTlkLWY0YmJmMjhlN2JlN iIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmplbmtpbnMifQ.Kw8_JL3R7L3b8y9gP6WbD8f0a6pLXIFSuaktY63zNKfg8OlmnilAHTk2M9PhpUlQa-NBH6i3lycxgbnfcPsw54kWX97QO0 Fscstq5wPcBzMfwtXIM3-r8hhv9F8BSMi43u8OyvAAU3GmUg9ThTKyh0J7eqfNLb6D-zEoZevqp0f03N EMnlejSK1DGGgR1bwWjZI-7Z9v0Q-OlgmlfJxDaJPRHgBWDDk6wkRSjAR0YQasBgvEjrXd937DJeVEqX pfuYq-P_ZjYYvjMtrxo4MDIpT3bXzbzFwndoImM_Nx_wxiNGdmf0NagbUjb-o9ONGajQgu6PayJcJm4t5c5Cvo6A" rollout restart deployment/java-app-deployment'
+                    
+                    echo "kubernetes deployment is done"
+
+                    sh 'kubectl get deployments'
+                    sh 'sleep 100 ; kubectl get services'
+                    
+                    }
+
+                    }
+                }
+        stage('Archive and clean workspace') {
+                steps {
+                    
+                    //archive 'target/demo*.jar'
+                    archiveArtifacts artifacts: 'target/*.jar', followSymlinks: false
+                    cleanWs()
+                }
+
+            }              
+
+    }
+}
