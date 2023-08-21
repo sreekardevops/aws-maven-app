@@ -1,0 +1,66 @@
+pipeline {
+    agent {
+       node {
+    		label 'awsvm'
+    		}
+    }
+
+     options    {
+                timestamps()
+                buildDiscarder(logRotator(numToKeepStr: '2', artifactNumToKeepStr: '2'))
+                timeout(time: 120, unit: 'MINUTES')
+                disableConcurrentBuilds()
+                }
+
+    parameters {
+            string(name: 'appBranch', defaultValue: 'master', description: "Application Branch name of the Repo")
+            string(name: 'gitURL', defaultValue: 'https://github.com/sreekardevops/aws-maven-app.git', description: "Pass the Maven Repo Source Code GIT URL")
+                }            
+
+
+    stages {
+        stage('checkout') {
+            steps {
+                git branch: appBranch, url: gitURL
+            }
+        }
+        stage('Maven Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+
+                sh 'docker build . -f dockerfile_testapp -t sreekardevops/awsmavendemo:latest'
+
+            }
+        }  
+
+        stage('Docker Login') {
+            steps {
+
+            withCredentials([usernamePassword(credentialsId: 'dockerlogin', passwordVariable: 'dockerpwd', usernameVariable: 'dockeruser')]) {
+    
+ 				   sh 'docker login -u ${dockeruser} -p ${dockerpwd}'
+				}
+
+            }
+        }              
+
+        stage('Docker Push') {
+            steps {
+                sh 'docker push sreekardevops/awsmavendemo:latest'
+
+            }
+
+        } 
+
+        stage ('K8SManiFest-Checkout') {
+                steps {
+
+                    git 'https://github.com/sreekardevops/aws-k8s-cicd.git'
+
+                }
+            }
