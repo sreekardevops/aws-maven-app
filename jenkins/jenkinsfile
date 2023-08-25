@@ -41,10 +41,13 @@ pipeline {
         stage('Docker Login') {
             steps {
 
-                 sh 'docker login -u sreekardevops  -p dckr_pat_3S_5Ba9lX6cez4g7vM1vmedSYuo'
-		
+            withCredentials([usernamePassword(credentialsId: 'dockerlogin', passwordVariable: 'dockerpwd', usernameVariable: 'dockeruser')]) {
+    
+ 				   sh 'docker login -u ${dockeruser} -p ${dockerpwd}'  
+                }
+        
             }
-        }              
+        }
 
         stage('Docker Push') {
             steps {
